@@ -32,13 +32,13 @@ class combinations{
 public:
     combinations(const std::vector<element_t>& evec, int choose);
 	
-    //whether there is a next combination, if not and next_combination was called
-    //it will return null
+    //whether there is a next combination, alternatively you can check the return value of next_combination()
     bool has_next();
     //how many combinations were generated up to the call
     int get_count();
     
-    //updates the tuple and returns a pointer to it, the size of the tuple is r
+    //generates a combinations, updates the tuple and returns a pointer to it, the size of the tuple is r (choose) 
+    	//it will return null once all combinations were generated
     const element_t* next_combination();
 
     ~combinations();
@@ -54,16 +54,19 @@ private:
     const std::vector<element_t>* m_evec_ptr=nullptr;
     const element_t* m_evec_data=nullptr;
     unique_ptr<element_t[]> m_tuple;  //current choice tuple
-    vector<bool> m_cstate; // an array of bools as many as n
-    unique_ptr<int[]> m_counttable; // an array of ints as many as r
-    int m_cstate_size; //n
-    int m_choose; // r
+    vector<bool> m_cstate; // an array of bools as many as n (number of elements in the input set)
+    unique_ptr<int[]> m_counttable; // an array of ints as many as r (choose)
+    int m_cstate_size; //n (number of elements in the input set)
+    int m_choose; // r (choose)
     int m_count_idx; //kept to keep track of currently focused on element in counttable
-    bool m_done; //signaling that we exhausted all permutations
-    int m_depth; // when it is zero we have a ready result, otherwise more processing is needed
-    int m_comb_count; //keeping count of how many we done (not totally needed)
+    bool m_done; //signaling that we exhausted all combinations
+    // when it is zero we have a ready result, otherwise more processing is needed by recursively calling next_combination()
+    int m_depth; 
+    //keeping count of how many we done (not needed for the algorithm's operation)
+    int m_comb_count; 
 
 };
+
 //implementation
 #include "combi.tpp"
 
